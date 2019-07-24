@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<title>Kakao 지도 시작하기</title>
+</head>
+<body>
+	<div>EMERGENCY!!</div>
+	<div id="map" style="width:1000px;height:800px;"></div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4e0e301eb708257d3f1bf940c38419f6&libraries=services"></script>
+	<script>
+		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+		var container = document.getElementById('map');
+		var value1 = 37.555086
+		var value2 = 127.044233
+		var options = {
+			center: new kakao.maps.LatLng(value1, value2),
+			level: 4
+		};
+
+		var map = new kakao.maps.Map(container, options);
+			
+		var markerPosition  = new kakao.maps.LatLng(value1, value2); 
+		var myPositionmarker = new kakao.maps.Marker({
+			position: markerPosition
+		});
+
+		myPositionmarker.setMap(map);
+		
+	
+		var ps = new kakao.maps.services.Places(map); 
+		ps.categorySearch('HP8', placesSearchCB, {useMapBounds:true});
+
+		function placesSearchCB (data, status, pagination) {
+		    if (status === kakao.maps.services.Status.OK) {
+		        for (var i=0; i<data.length; i++) {
+		            displayMarker(data[i]);    
+		        }       
+		    }
+		}
+		function displayMarker(place) {
+		    // 마커를 생성하고 지도에 표시합니다
+		    var marker = new kakao.maps.Marker({
+		        map: map,
+		        position: new kakao.maps.LatLng(place.y, place.x) 
+		    });
+	
+		    // 마커에 클릭이벤트를 등록합니다
+		    kakao.maps.event.addListener(marker, 'click', function() {
+		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+		        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+		        infowindow.open(map, marker);
+		    });
+		}
+		
+	</script>
+</body>
+</html>
