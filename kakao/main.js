@@ -16,7 +16,21 @@ app.get('/login',function(req,res){
 });
 
 app.get('/get_geo',function(req,res){
-	res.render('index_ori.html')
+	res.render('index.html')
+});
+
+app.get('/user',function(req,res){
+	console.log(req.query.id);
+    res.render('hello.html',
+        {
+            token: req.query.id,
+            title: 'HI'        
+        }
+    );
+});
+
+app.get('/tst',function(req,res){
+       res.render('tst.html')
 });
 
 app.listen(8033,function(){

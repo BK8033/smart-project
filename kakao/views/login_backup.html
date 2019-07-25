@@ -19,23 +19,14 @@
     Kakao.Auth.createLoginButton({
       container: '#kakao-login-btn',
       success: function(authObj) {
-          //alert(authObj["access_token"]);
-          url = "/user?id=" + authObj["access_token"];
-          location.href = url;
+        alert(JSON.stringify(authObj));
       },
       fail: function(err) {
          alert(JSON.stringify(err));
       }
     });
   //]]>
-
-   
-
-   
 </script>
-<form>
-</form>
-
 
 </body>
 </html>
