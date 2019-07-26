@@ -2,6 +2,7 @@ var express =require('express');
 var app = express();
 var fs = require('fs');
 var body = require('body-parser')
+
 const { config, Group } = require('solapi')
 
 
@@ -12,6 +13,7 @@ app.use(body.urlencoded({extended: true}));
 app.use("/static", express.static('./static/'));
 
 conf = fs.readFileSync('./config.js','utf-8');
+place = fs.readFileSync('./place.txt','utf-8');
 
 config.init({
     apiKey: 'NCS3CFAYW7TVC6EP',
