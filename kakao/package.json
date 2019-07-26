@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "djs": "0.0.2",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "iniparser": "^1.0.5",
+    "solapi": "^4.0.17"
   }
 }

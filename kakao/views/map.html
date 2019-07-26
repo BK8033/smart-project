@@ -8,8 +8,9 @@
 	<div>EMERGENCY!!</div>
 	<div id="map" style="width:1000px;height:800px;"></div>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4e0e301eb708257d3f1bf940c38419f6&libraries=services"></script>
-	<script>
-		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+    <script type="text/javascript"  src= "static/send.js"> </script>
+	<script type = "text/javascript">
+ 		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 		var container = document.getElementById('map');
 		var value1 = 37.555086
 		var value2 = 127.044233
@@ -53,6 +54,14 @@
 		    });
 		}
 		
+        
+        
+
+
+
 	</script>
 </body>
+ <form action = "" method = "POST">
+ <input type="submit" name = "btn1" value = "위기상황">
+ </form>
 </html>
