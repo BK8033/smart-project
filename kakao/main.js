@@ -10,7 +10,6 @@ app.engine('html',require('ejs').renderFile);
 app.set('view engine','ejs');
 app.use(body.json());
 app.use(body.urlencoded({extended: true}));
-app.use("/static", express.static('./static/'));
 
 conf = fs.readFileSync('./config.js','utf-8');
 place = fs.readFileSync('./place.txt','utf-8');
@@ -34,9 +33,10 @@ app.get('/map',function(req,res){
 });
 
 app.post('/map',function(req,res){
-    console.log("signal in..");
+    var text = 'EMERGENCY! \n\rhttps://map.kakao.com/link/map/' + req.body.v1;
+    console.log(req.body.v1);
     send({
-        text: 'EMERGENCY !!',
+        text: text,
         type: 'SMS',
         to: conf.substr(222,11),
         from: '01053658033'

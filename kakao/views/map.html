@@ -14,6 +14,9 @@
 		var container = document.getElementById('map');
 		var value1 = 37.555086
 		var value2 = 127.044233
+
+        var place_name = "한양대학교 병원"
+
 		var options = {
 			center: new kakao.maps.LatLng(value1, value2),
 			level: 4
@@ -50,18 +53,54 @@
 		    kakao.maps.event.addListener(marker, 'click', function() {
 		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 		        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+                console.log(place.id);
+                place_name = place.id;
 		        infowindow.open(map, marker);
 		    });
 		}
 		
         
-        
+        function goPost(){
+            var obj1 = place_name;
+
+             
+
+             var form = document.createElement("form");
+             form.setAttribute("charset", "UTF-8");      
+             form.setAttribute("method", "Post"); // Get 또는 Post 입력
+             form.setAttribute("action", "map");
+
+              
+
+              var hiddenField = document.createElement("input");
+              hiddenField.setAttribute("type", "hidden");
+              hiddenField.setAttribute("name", "v1");
+              hiddenField.setAttribute("value", obj1);
+              form.appendChild(hiddenField);
+
+               
+
+      //        var url ="target.jsp"
+  //            var title = "testpop"
+    //          var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=1240, height=1200, top=0,left=20"
+
+//                 window.open("", title,status); //팝업 창으로 띄우기. 원치 않으면 주석.
+
+               
+ //                 form.target = title;
+                  document.body.appendChild(form);
+
+                   
+
+                    
+
+              form.submit();
+              console.log("function returned..");
+        }
 
 
 
 	</script>
 </body>
- <form action = "" method = "POST">
- <input type="submit" name = "btn1" value = "위기상황">
- </form>
+ <input type="submit" name = "btn1" value = "위기상황" onClick="goPost()" >
 </html>
