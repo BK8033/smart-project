@@ -10,7 +10,7 @@ sec = -1
 @app.route('/SEATDOWN',methods = ['POST'])
 def dataFromNugu():
 
-	#### DO NOT THIS AREA ####
+	#### DO NOT EDIT THIS AREA ####
 	global sec
 	req = request.json
 	response = {}
