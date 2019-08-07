@@ -6,9 +6,7 @@ assert subscription_key
 
 face_api_url = 'https://koreacentral.api.cognitive.microsoft.com/face/v1.0/detect'
 
-#image_url = 'https://sagemaker-us-west-2-334381301451.s3-us-west-2.amazonaws.com/abnormal2/20190711_102915_005.jpg'
-image_url = 'https://palisade5365.s3.ap-northeast-2.amazonaws.com/KakaoTalk_20190802_121022653.jpg' 
-#image_url = 'https://palisade5365.s3.ap-northeast-2.amazonaws.com/KakaoTalk_20190802_121830804.jpg'
+
 
 headers = {'Ocp-Apim-Subscription-Key': subscription_key}
 
@@ -18,11 +16,33 @@ params = {
                 'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise',
 }
 
+idx = input('Enter Number(1:normal, 2:abnormal, 3:sleep) >>')
+condi = ''
+
+if idx == '1':
+    condi = 'normal'
+elif idx == '2':
+    condi = 'sick'
+else:
+    condi = 'sleep'
+
+image_url = 'https://palisade5365.s3.ap-northeast-2.amazonaws.com/ts/seok/' + condi + '/3.jpg'
+
 response = requests.post(face_api_url, params=params,
                          headers=headers, json={"url": image_url})
 
-#print(json.dumps(response.json(), indent = 4))
 emo = response.json()[0]['faceAttributes']['emotion']
 
-for k in emo.keys():
-    print(k, ":",emo[k])
+print(emo)
+'''
+for i in range(1,4):
+    image_url = url + str(i) + '.jpg'
+    response = requests.post(face_api_url, params=params,
+                         headers=headers, json={"url": image_url})
+    print(i, '번째 사진')
+    print()
+    emo = response.json()[0]['faceAttributes']['emotion']
+    for k in emo.keys():
+        print(k, ":",emo[k])
+    print()
+'''
