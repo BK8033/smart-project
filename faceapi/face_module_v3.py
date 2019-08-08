@@ -44,10 +44,7 @@ def isSick():
     right_dif = float(elb['y'])-float(elt['y'])
     if neutral < 0.5:
         print('Prediction: Sick')
-        return 1
     elif left_dif < 20 and right_dif < 20:
         print('Prediction: Sleep')
-        return 2
     else:
         print('Prediction: Normal')
-        return 0

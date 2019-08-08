@@ -31,23 +31,18 @@ def isSick():
 
     response = requests.post(face_api_url, params=params,
                              headers=headers, json={"url": image_url})
-#    print(response.text)
     land = response.json()[0]['faceLandmarks']
     emo = response.json()[0]['faceAttributes']['emotion']
     ang = emo['anger']
     neutral = emo['neutral']
+#    print('neu: ', neutral
+    for key in emo.keys():
+        print(key, ':', emo[key])
+#    print(emo.keys())
     elt = land['eyeLeftTop']
     elb = land['eyeLeftBottom']
     ert = land['eyeRightTop'] 
     erb = land['eyeRightBottom']
     left_dif = float(elb['y'])-float(elt['y'])
     right_dif = float(elb['y'])-float(elt['y'])
-    if neutral < 0.5:
-        print('Prediction: Sick')
-        return 1
-    elif left_dif < 20 and right_dif < 20:
-        print('Prediction: Sleep')
-        return 2
-    else:
-        print('Prediction: Normal')
-        return 0
+

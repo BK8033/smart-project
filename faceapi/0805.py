@@ -33,7 +33,7 @@ response = requests.post(face_api_url, params=params,
 
 emo = response.json()[0]['faceAttributes']['emotion']
 
-print(emo)
+print(json.dumps(response))
 '''
 for i in range(1,4):
     image_url = url + str(i) + '.jpg'

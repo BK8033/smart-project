@@ -1,8 +1,4 @@
-import face_module_v1 as fm
+import face_module_v3 as fm
 
 cmd = fm.isSick()
 
-if cmd:
-    print('Sick')
-else:
-    print('It is Ok')
