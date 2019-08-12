@@ -41,6 +41,22 @@ app.post('/map',function(req,res){
         to: conf.substr(222,11),
         from: '01053658033'
     })
+
+    const request = require('request');
+    console.log("111111")
+    var options = {
+        url:'http://52.43.95.248:5365/realEmer',
+        method: 'GET',
+        qs : {'condition' : 5}
+    }
+    request(options, function(error,response,body){
+        if ( !error && response.statusCode ==200){
+            console.log(body)
+        }
+    })
+    console.log("111111")
+
+
 });
 
 app.get('/login',function(req,res){
