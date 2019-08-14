@@ -73,9 +73,14 @@ def bluceCB():
 
 @app.route('/realEmer', methods = ['GET'])
 def reCB():
+    global condition
+    condition = 5
     return {'condition': 'OK'}
 
-
+@app.route('/digitalpost',methods = ['GET'])
+def digitalCB():
+    global condition
+    return {'condition': condition}
 
 @app.route('/pirequest', methods = ['GET'])
 def toPI():

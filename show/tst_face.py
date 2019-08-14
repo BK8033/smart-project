@@ -16,9 +16,9 @@ face_api_url = 'https://koreacentral.api.cognitive.microsoft.com/face/v1.0/detec
 headers = {'Ocp-Apim-Subscription-Key': subscription_key}
 
 params = {
-        'returnFaceId': 'true',
-            'returnFaceLandmarks': 'true',
-                'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise',
+    'returnFaceId': 'true',
+    'returnFaceLandmarks': 'true',
+    'returnFaceAttributes': 'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise',
 }
 
 def isSick():
@@ -32,7 +32,7 @@ def isSick():
     try:
         land = response.json()[0]['faceLandmarks']
         emo = response.json()[0]['faceAttributes']['emotion']
-    #    print(emo)
+        #print(emo)
         ang = emo['anger']
         neutral = emo['neutral']
         happ = emo['happiness']
@@ -46,18 +46,18 @@ def isSick():
         right_width = float(land['eyeRightOuter']['x'])-float(land['eyeRightInner']['x'])
         width = (left_width + right_width)/2
 #        print('aaa')
-        threshold = (rei+lei)/4;
+        threshold = (rei+lei)/5.5;
                 
 #        print('left width: ', left_width, ', right_width: ', right_width)
-        print('width = ', width, ',  thres = ',threshold)
+#        print('width = ', width, ',  thres = ',threshold)
         left_dif = float(elb['y'])-float(elt['y'])
         right_dif = float(elb['y'])-float(elt['y'])
         dif = (left_dif + right_dif)/2
-        print('letf: ', left_dif, ',   r: ', right_dif, ',    thr: ', threshold)
+#        print('letf: ', left_dif, ',   r: ', right_dif, ',    thr: ', threshold)
         if happ > 0.5:
             print('Prediction: Normal')
             return 0
-        elif neutral + happ < 0.7:
+        elif neutral + happ < 0.9:
             print('Prediction: Sick')
             return 1
         elif dif < threshold:

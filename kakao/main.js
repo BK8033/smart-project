@@ -43,9 +43,8 @@ app.post('/map',function(req,res){
     })
 
     const request = require('request');
-    console.log("111111")
     var options = {
-        url:'http://52.43.95.248:5365/realEmer',
+        url:'http://18.236.66.232:5365/realEmer',
         method: 'GET',
         qs : {'condition' : 5}
     }
@@ -54,7 +53,6 @@ app.post('/map',function(req,res){
             console.log(body)
         }
     })
-    console.log("111111")
 
 
 });
