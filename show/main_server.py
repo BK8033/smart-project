@@ -1,7 +1,7 @@
 from flask import Flask, request
 import json
 import sys
-import tst_face as tf
+import face as tf
 import threading
 import time
 app = Flask(__name__)
@@ -59,7 +59,7 @@ def myTimer():
     time.sleep(nugu_wait_time)
     if flag != 3:
         print('No signal from NUGU')
-        condition = 6
+        condition = 7
     flag=2
 
 
@@ -68,13 +68,13 @@ ti = threading.Thread(target = myTimer)
 
 @app.route('/bcare', methods = ['GET'])
 def bluceCB():
-    global condition
+    global condition = 10
     return {'condition':condition}
 
 @app.route('/realEmer', methods = ['GET'])
 def reCB():
     global condition
-    condition = 5
+    condition = 11
     return {'condition': 'OK'}
 
 @app.route('/digitalpost',methods = ['GET'])
@@ -110,7 +110,9 @@ def toPI():
         print('rasp got sleep signal')
         output['sec'] = sec
         sec = -1
-    elif cmd == 1:
+        condition = 6
+    elif cmd == 3: 
+        condition = 5
         ti.start()
         print('thread start')
 
@@ -119,19 +121,15 @@ def toPI():
     #       if pi get not 0 condition initialize            #
     #########################################################
     '''
-
-    if condition != 0 and condition != 6:
-        condition = 0
-  
-
-
     return output
     
 
 @app.route('/upload', methods = ['GET'])
 def uploadCB():
     global condition
+
     condition = tf.isSick()
+    
     print('present state:', condition) 
     output = {'code':'200'}
     return output
@@ -155,7 +153,7 @@ def sleepCB():
     ############DO NOT THIS AREA########################
     global sec
     global condition
-    condition = 4
+    condition = 9
     req = request.json
     response = {}
     act = req['action']['parameters']
@@ -176,8 +174,10 @@ def emerCB():
     global flag
     if flag == 2:
         print('Emergency happened!')
+        condition = 11
     elif flag == 1:
         flag = 3
+        condition = 8
     req = request.json
     response = {}
     response['version'] = req['version']

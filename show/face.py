@@ -28,14 +28,20 @@ def isSick():
     print('file = ',latest_obj)
     response = requests.post(face_api_url, params=params,
                              headers=headers, json={"url": image_url})
-#    print(response.text)
-    try:
+    condition=1
+#    print(type(response.status_code))
+#    print(response.json())
+    if response.status_code == 400:
+        print('error occured')
+        return -1
+    if response.json():
         land = response.json()[0]['faceLandmarks']
         emo = response.json()[0]['faceAttributes']['emotion']
         #print(emo)
         ang = emo['anger']
         neutral = emo['neutral']
         happ = emo['happiness']
+        disg = emo['disgust']
         elt = land['eyeLeftTop']
         elb = land['eyeLeftBottom']
         ert = land['eyeRightTop'] 
@@ -46,25 +52,24 @@ def isSick():
         right_width = float(land['eyeRightOuter']['x'])-float(land['eyeRightInner']['x'])
         width = (left_width + right_width)/2
 #        print('aaa')
-        threshold = (rei+lei)/5.5;
+        threshold = (rei+lei)/4.5;
                 
-#        print('left width: ', left_width, ', right_width: ', right_width)
-#        print('width = ', width, ',  thres = ',threshold)
         left_dif = float(elb['y'])-float(elt['y'])
-        right_dif = float(elb['y'])-float(elt['y'])
+        right_dif = float(erb['y'])-float(ert['y'])
         dif = (left_dif + right_dif)/2
-#        print('letf: ', left_dif, ',   r: ', right_dif, ',    thr: ', threshold)
-        if happ > 0.5:
-            print('Prediction: Normal')
-            return 0
-        elif neutral + happ < 0.9:
+        #############################
+
+        ##############################
+        if disg > 0.01 or ang >0.1:
             print('Prediction: Sick')
-            return 1
-        elif dif < threshold:
-            print('Prediction: Sleep')
-            return 2
+            return 3
         else:
-            print('Prediction: Normal')
-            return 0
-    except Exception:
+            if dif < threshold and dif < 11 and width*dif < 450:
+                print('Prediction: Sleep')
+                return 4
+            else:
+                print('Prediction: Normal')
+                return 2
+        ################################
+    else:
         print('Cannot found face')
