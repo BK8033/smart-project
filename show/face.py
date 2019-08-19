@@ -6,7 +6,7 @@ bucket = "palisade5365"
 get_last_modified = lambda obj: int(obj['LastModified'].strftime('%s'))
 s3 = boto3.client('s3')
 
-subscription_key = 'b1afff0faa3840fa83f270ec0f532a08'
+subscription_key = '88f31bd2bc4d4773bdf0de12142fbd3c'
 assert subscription_key
 
 face_api_url = 'https://koreacentral.api.cognitive.microsoft.com/face/v1.0/detect'
@@ -37,7 +37,7 @@ def isSick():
     if response.json():
         land = response.json()[0]['faceLandmarks']
         emo = response.json()[0]['faceAttributes']['emotion']
-        #print(emo)
+        print(emo)
         ang = emo['anger']
         neutral = emo['neutral']
         happ = emo['happiness']
@@ -51,12 +51,15 @@ def isSick():
         left_width = float(land['eyeLeftInner']['x'])-float(land['eyeLeftOuter']['x'])
         right_width = float(land['eyeRightOuter']['x'])-float(land['eyeRightInner']['x'])
         width = (left_width + right_width)/2
-#        print('aaa')
-        threshold = (rei+lei)/4.5;
+        
+        threshold = 6;
+        
                 
         left_dif = float(elb['y'])-float(elt['y'])
         right_dif = float(erb['y'])-float(ert['y'])
         dif = (left_dif + right_dif)/2
+
+        print('width = ',width,', height = ',dif, ', threshold = ', (width/dif)*2)
         #############################
 
         ##############################
@@ -64,8 +67,8 @@ def isSick():
             print('Prediction: Sick')
             return 3
         else:
-            if dif < threshold and dif < 11 and width*dif < 450:
-                print('Prediction: Sleep')
+            if (width/dif)*2 > threshold and dif < 16 :
+                print('Prediction: sleep')
                 return 4
             else:
                 print('Prediction: Normal')
@@ -73,3 +76,4 @@ def isSick():
         ################################
     else:
         print('Cannot found face')
+        return -1

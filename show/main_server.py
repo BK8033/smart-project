@@ -64,11 +64,11 @@ def myTimer():
 
 
 global ti
-ti = threading.Thread(target = myTimer)
 
 @app.route('/bcare', methods = ['GET'])
 def bluceCB():
-    global condition = 10
+    global condition
+    
     return {'condition':condition}
 
 @app.route('/realEmer', methods = ['GET'])
@@ -105,14 +105,16 @@ def toPI():
  
     cmd = int(condition)
 
-
     if cmd == 4:
-        print('rasp got sleep signal')
+        condition = int(6)
+    elif cmd == 9:
+        print('Rasp got sleep signal')
         output['sec'] = sec
         sec = -1
-        condition = 6
     elif cmd == 3: 
-        condition = 5
+        print('Rasp got sleep signal')
+        condition = int(5)
+        ti = threading.Thread(target = myTimer)
         ti.start()
         print('thread start')
 
@@ -128,9 +130,12 @@ def toPI():
 def uploadCB():
     global condition
 
-    condition = tf.isSick()
+    result = tf.isSick()
+
+    if int(condition) < int(5):
+        condition = result
     
-    print('present state:', condition) 
+    print('Present State:', condition) 
     output = {'code':'200'}
     return output
 
@@ -138,7 +143,8 @@ def uploadCB():
 def testCB():
     global condition
     condition = request.args.get('condi')
-    codition = int(condition)
+    #codition = int(condition)
+    print('Master set condition = ', condition)
     output = {'code':'200'}
     return json.dumps(output)
 '''
