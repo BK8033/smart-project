@@ -129,8 +129,11 @@ def toPI():
 @app.route('/upload', methods = ['GET'])
 def uploadCB():
     global condition
-
-    result = tf.isSick()
+    
+    if int(condition) == 0:
+        print("condition => 0")
+    else:
+        result = tf.isSick()
 
     if int(condition) < int(5):
         condition = result

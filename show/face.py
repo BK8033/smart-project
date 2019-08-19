@@ -48,26 +48,27 @@ def isSick():
         erb = land['eyeRightBottom']
         lei = land['eyeLeftInner']['x']-land['eyeLeftOuter']['x']
         rei = land['eyeRightOuter']['x']-land['eyeRightInner']['x']
+        exp = land['exposure']['value']
         left_width = float(land['eyeLeftInner']['x'])-float(land['eyeLeftOuter']['x'])
         right_width = float(land['eyeRightOuter']['x'])-float(land['eyeRightInner']['x'])
         width = (left_width + right_width)/2
-        
+       
         threshold = 6;
         
-                
+
         left_dif = float(elb['y'])-float(elt['y'])
         right_dif = float(erb['y'])-float(ert['y'])
         dif = (left_dif + right_dif)/2
 
         print('width = ',width,', height = ',dif, ', threshold = ', (width/dif)*2)
-        #############################
+        ##############################
 
         ##############################
         if disg > 0.01 or ang >0.1:
             print('Prediction: Sick')
             return 3
         else:
-            if (width/dif)*2 > threshold and dif < 16 :
+            if exp < 0.4 and dif < 12.8 :
                 print('Prediction: sleep')
                 return 4
             else:
