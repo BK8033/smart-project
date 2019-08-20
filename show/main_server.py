@@ -1,7 +1,7 @@
 from flask import Flask, request
 import json
 import sys
-import face as tf
+import bk_face as tf
 import threading
 import time
 app = Flask(__name__)
@@ -43,6 +43,8 @@ global condition
 global flag
 global sec
 global nugu_wait_time
+global ret
+ret = {'code':'-1'}
 condition = 0
 flag = 0
 nugu_wait_time = 15
@@ -76,6 +78,12 @@ def reCB():
     global condition
     condition = 11
     return {'condition': 'OK'}
+
+@app.route('/matrequest',methods = ['GET'])
+def matCB():
+    global ret
+    return ret
+
 
 @app.route('/digitalpost',methods = ['GET'])
 def digitalCB():
@@ -128,13 +136,14 @@ def toPI():
 
 @app.route('/upload', methods = ['GET'])
 def uploadCB():
-    global condition
-    
+    global condition, ret
+    result = 0
     if int(condition) == 0:
         print("condition => 0")
     else:
-        result = tf.isSick()
-
+        ret = tf.isSick()
+        result = int(ret['code'])
+        print('code = ',result)
     if int(condition) < int(5):
         condition = result
     
@@ -146,7 +155,8 @@ def uploadCB():
 def testCB():
     global condition
     condition = request.args.get('condi')
-    #codition = int(condition)
+    if type(condition) == str:
+        codition = int(condition)
     print('Master set condition = ', condition)
     output = {'code':'200'}
     return json.dumps(output)

@@ -48,7 +48,7 @@ def isSick():
         erb = land['eyeRightBottom']
         lei = land['eyeLeftInner']['x']-land['eyeLeftOuter']['x']
         rei = land['eyeRightOuter']['x']-land['eyeRightInner']['x']
-        exp = land['exposure']['value']
+        exp = response.json()[0]['faceAttributes']['exposure']
         left_width = float(land['eyeLeftInner']['x'])-float(land['eyeLeftOuter']['x'])
         right_width = float(land['eyeRightOuter']['x'])-float(land['eyeRightInner']['x'])
         width = (left_width + right_width)/2
