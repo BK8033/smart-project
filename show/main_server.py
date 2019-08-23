@@ -44,6 +44,8 @@ global flag
 global sec
 global nugu_wait_time
 global ret
+global pre_condition
+pre_condition = 0
 ret = {'code':'-1'}
 condition = 0
 flag = 0
@@ -133,30 +135,49 @@ def toPI():
     '''
     return output
     
+@app.route('/mat', methods = ['POST'])
+def matCB2():
+    print(request.get_json())
+    print('type: ',type(request.json))
+    print(request.json['url'])
+    return {'code':'200'}
 
 @app.route('/upload', methods = ['GET'])
 def uploadCB():
-    global condition, ret
+    global condition, ret, pre_condition
     result = 0
+
     if int(condition) == 0:
+        ret = tf.isSick()
         print("condition => 0")
     else:
         ret = tf.isSick()
         result = int(ret['code'])
         print('code = ',result)
+    
+    
     if int(condition) < int(5):
         condition = result
-    
+       
+
     print('Present State:', condition) 
     output = {'code':'200'}
+
+    if type(condition) == str:
+        pre_condition = int(condition)
+    else:
+         pre_condition = condition
+
     return output
 
 @app.route('/test',methods =['GET'])
 def testCB():
     global condition
     condition = request.args.get('condi')
+
     if type(condition) == str:
-        codition = int(condition)
+        condition = int(condition)
+
     print('Master set condition = ', condition)
     output = {'code':'200'}
     return json.dumps(output)

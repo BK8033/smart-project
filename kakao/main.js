@@ -47,7 +47,7 @@ app.post('/map',function(req,res){
         url:'http://18.236.66.232:5365/realEmer',
         method: 'GET',
         qs : {'condition' : 5}
-    }
+    };
     request(options, function(error,response,body){
         if ( !error && response.statusCode ==200){
             console.log(body)
@@ -87,8 +87,8 @@ app.post('/login',function(req,res){
 
 
 
-app.get('/tst',function(req,res){
-       res.render('tst.html')
+app.get('/admin',function(req,res){
+       res.render('admin.html')
 });
 
 app.listen(8033,function(){

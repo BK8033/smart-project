@@ -74,10 +74,10 @@ def isSick():
             print('Prediction: Sick')
             ret['code'] = 3
         else:
-            if exp > 0.4 and dif < 11 :
+            if exp > 0.4 and dif < 0:
                 print('Prediction: sleep')
                 
-                ret['code'] = 4
+                ret['code'] = 12
             else:
                 print('Prediction: Normal')
 
